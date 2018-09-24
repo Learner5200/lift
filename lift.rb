@@ -1,43 +1,29 @@
-Queues = [
-  [3, 2, 1],
-  [3, 2],
-  [],
-  [1, 1]
-]
-
 class Floor
-
-  @floors = []
-
+  @floors = [] # class object instance variable to hold the different floors
   class << self
     attr_accessor :floors
   end
 
   def initialize(floor_num, queues)
-    Floor.floors << self
-    @people_waiting = queues[floor_num]
-    @floor_num = floor_num
-    @directions = @people_waiting.map { |person| get_direction(person) }.uniq
-
-
+    Floor.floors << self # adds new floor to floors list
+    @people_waiting = queues[floor_num] # gets the people waiting at that floor from the queues list provided
+    @floor_num = floor_num # number of the floor, as an integer
   end
 
   def get_direction(person_num)
     person_num > @floor_num ? "up" : "down"
   end
 
-
-  attr_accessor :people_waiting, :floor_num, :directions
+  attr_accessor :people_waiting, :floor_num
 end
 
 class Lift
   def initialize(capacity)
     @capacity = capacity
-    @current_floor = Floor.floors[0]
-    @direction = "up"
-    @people = []
-    @stop_log = []
-    @stop_list = []
+    @current_floor = Floor.floors[0] # starts the lift on the ground floor
+    @direction = "up" # starts the lift going up
+    @people = [] # will hold a list of the people in the lift
+    @stop_log = [] # will hold a list of all the stops made
     update_stops
   end
 
@@ -111,4 +97,9 @@ def lift(queues, capacity)
 end
 
 
-puts lift(Queues, 4)
+puts lift([
+  [3, 2, 1],
+  [3, 2],
+  [],
+  [1, 1]
+], 4)
